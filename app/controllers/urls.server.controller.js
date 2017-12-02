@@ -13,16 +13,28 @@ exports.create = function(req,res,next){
           "customUrl": "http://localhost:3000/"+algo.encoding(url._id) //index -> short url
       });
     }else{  //처음 변환하는 URL
-      url.customUrl = algo.encoding(url._id);
-      url.save(function(err){
-        if(err)
-          return next(err);
-        res.json({
-            "result": "SUCCESS",
-            "message": "created URL",
-            "customUrl": "http://localhost:3000/"+url.customUrl
+      Url.find({status : 'created'})
+        .sort({_id : -1})
+        .exec(function(err, doc){
+          if(err){
+            console.log(err);
+            res.json({
+              "result" : "ERROR",
+              "message" : err
+            });
+          }
+          url._id = doc[0]._id+1;
+          url.customUrl = algo.encoding(url._id);
+          url.save(function(err){
+            if(err)
+              return next(err);
+            res.json({
+                "result": "SUCCESS",
+                "message": "created URL",
+                "customUrl": "http://localhost:3000/"+url.customUrl
+            });
+          });
         });
-      });
     }
   });
 };

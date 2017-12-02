@@ -27,7 +27,8 @@ const UrlSchema = new Schema({
       default : Date.now
     },
     status : {
-      type : String //created, removed
+      type : String, //created, removed
+      default : 'created'
     }
 }, {versionKey: false});
 
