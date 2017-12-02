@@ -1,0 +1,7 @@
+node_modules
+manifest.yml
+*.log
+package-lock.json
+*.jpg
+*.png
+
