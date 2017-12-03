@@ -2,7 +2,7 @@ const Url = require('mongoose').model('Url');
 const algo = require('./algorithm/shorten');
 const Promise = require('bluebird');
 
-exports.create = function(req,res,next){
+exports.create = function(req,res){
   let url = new Url(req.body);
   urlValidation(url.longUrl).then(function(result){
     if(result){ // 존재하는 URL
@@ -30,8 +30,12 @@ exports.create = function(req,res,next){
           algo.encoding(url._id).then(function(encoded){
             url.customUrl = encoded;
             url.save(function(err){
-              if(err)
-                return next(err);
+              if(err){
+                res.json({
+                  "result" : "ERROR",
+                  "message" : err
+                });
+              }
               res.json({
                   "result": "SUCCESS",
                   "message": "created URL",
@@ -44,19 +48,27 @@ exports.create = function(req,res,next){
   });
 };
 
-exports.getAllUrls = function(req,res,next){
+exports.getAllUrls = function(req,res){
   Url.find(function(err,urls){
-    if(err)
-      return next(err);
+    if(err){
+        res.json({
+          "result" : "ERROR",
+          "message" : err
+        });
+    }
     res.json(urls);
   });
 };
 
-exports.deleteAll = function(req,res,next){
+exports.deleteAll = function(req,res){
   const myquery = req.body;
   Url.deleteMany(myquery, function(err){
-    if(err)
-      return next(err);
+    if(err){
+        res.json({
+          "result": "ERROR",
+          "message": err
+        });
+    }
     res.json({
         "result": "SUCCESS",
         "message": "삭제 성공"
@@ -64,21 +76,28 @@ exports.deleteAll = function(req,res,next){
   })
 };
 
-exports.makeKorean = function(req,res,next){
+exports.makeKorean = function(req,res){
   let url = new Url(req.body);
   Url.find({status : 'created'})
     .sort({_id : -1})
     .exec(function(err, doc){
       if(err){
-        next(err);
+        res.json({
+          "result": "ERROR",
+          "message": err
+        });
       }else{
         if(!doc[0])
           url._id = 100000;
         else
           url._id = doc[0]._id+1;
         url.save(function(err){
-          if(err){
-            next(err);
+          if(err.code === 11000){
+            res.json({
+              "result": "ERROR",
+              "code": err.code,
+              "message": "중복된 주소입니다. 다른 주소를 입력해주세요."
+            });
           }else{
             res.json({
               "result" : "SUCCESS",
@@ -91,14 +110,17 @@ exports.makeKorean = function(req,res,next){
     });
 };
 
-exports.putKorean = function(req,res,next){
+exports.putKorean = function(req,res){
   const url = new Url(req.body);
   Url.findOne({longUrl : url.longUrl}, function(err, doc){
     if(doc){
       doc.customUrl = url.customUrl;
       doc.save(function(err){
         if(err){
-          next(err);
+          res.json({
+            "result":"ERROR",
+            "message":err
+          });
         }else{
           res.json({
             "result" : "SUCCESS",
@@ -108,12 +130,15 @@ exports.putKorean = function(req,res,next){
         }
       });
     }else{
-      next(err);
+      res.json({
+        "result":"ERROR",
+        "message":err
+      });
     }
   });
 };
 
-exports.isRegistered = function(req,res,next){
+exports.isRegistered = function(req,res){
   const url = new Url(req.query);
   Url.findOne({longUrl : url.longUrl}, function(err, doc){
     if(doc){
@@ -136,7 +161,7 @@ exports.isRegistered = function(req,res,next){
   });
 };
 
-exports.getCount = function(req,res,next){
+exports.getCount = function(req,res){
   //'localhost:3000/' 뒷부분만 입력 받는다.
   Url.findOne({customUrl : req.query.customUrl}, function(err, doc){
     if(err){
@@ -169,7 +194,7 @@ exports.getCount = function(req,res,next){
           }else{
             res.json({
               "result" : "FAILURE",
-              "message" : "not found"
+              "message" : "변환된 주소를 찾을 수 없습니다. 다시 입력해주세요."
             });
           }
         });

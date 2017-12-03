@@ -31,8 +31,10 @@ $('#customButton').click(function(){
                   if(result2['result'] === 'SUCCESS'){
                       $('#customUrlLabel').html("<a href= \"" + result2['customUrl'] +"\">" +result2['customUrl']+"</a>");
                     }
-                  else
+                  else{
                       $('#customUrlLabel').html(result2['message']);
+                      $('#koreanUrlInput').val('');
+                    }
                 }
               });
             }else{
@@ -45,8 +47,10 @@ $('#customButton').click(function(){
                   if(result2['result'] === 'SUCCESS'){
                       $('#customUrlLabel').html("<a href= \"" + result2['customUrl'] +"\">" +result2['customUrl']+"</a>");
                     }
-                  else
+                  else{
                       $('#customUrlLabel').html(result2['message']);
+                      $('#koreanUrlInput').val('');
+                    }
                 }
               });
             }
@@ -65,10 +69,13 @@ $('#analysisButton').click(function(){
     'dataType':'json',
     'data':{'customUrl':$('#customUrlInput').val()},
     'success':  function(result){
-        if(result['result'] === 'SUCCESS')
+        if(result['result'] === 'SUCCESS'){
             $('#analysisLabel').html('http://localhost:3000/'+ $('#customUrlInput').val() +' 로 방문한 횟수: '+result['count'] + '번');
-        else
+          }
+        else{
             $('#analysisLabel').html(result['message']);
+            $('#customUrlInput').val('');
+          }
     }
   });
 });
