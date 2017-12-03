@@ -27,22 +27,23 @@ exports.redirect = function(req,res){
         }
       });
     }else{  // 한글로 시작하지 않는 URL (short url)
-      customUrl = algo.decoding(customUrl); //short url -> index
-      Url.findOne({_id: customUrl}, function(err, doc){
-        if(doc){
-          Url.findByIdAndUpdate(doc._id, {$inc: {count:1}}, function (err, data) {
-            if(err){
-              res.json({
-                "result" : "ERROR",
-                "message" : "increment count error"
-              });
-            }
-          });
-          
-          res.redirect(doc.longUrl);
-        }else{
-          res.render('index');
-        }
+      algo.decoding(customUrl).then(function(decoded){ //short url -> index
+        Url.findOne({_id: decoded}, function(err, doc){
+          if(doc){
+            Url.findByIdAndUpdate(doc._id, {$inc: {count:1}}, function (err, data) {
+              if(err){
+                res.json({
+                  "result" : "ERROR",
+                  "message" : "increment count error"
+                });
+              }
+            });
+
+            res.redirect(doc.longUrl);
+          }else{
+            res.render('index');
+          }
+        });
       });
     }
   });

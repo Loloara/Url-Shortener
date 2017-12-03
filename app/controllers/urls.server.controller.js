@@ -6,10 +6,12 @@ exports.create = function(req,res,next){
   let url = new Url(req.body);
   urlValidation(url.longUrl).then(function(result){
     if(result){ // 존재하는 URL
-      res.json({
-          "result": "SUCCESS",
-          "message": "Already Exist",
-          "shortUrl" : "http://localhost:3000/"+algo.encoding(result._id) //index -> short url
+      algo.encoding(result._id).then(function(encoded){ //index -> short url
+        res.json({
+            "result": "SUCCESS",
+            "message": "Already Exist",
+            "shortUrl" : "http://localhost:3000/"+encoded
+        });
       });
     }else{  //처음 변환하는 URL
       Url.find({status : 'created'})
@@ -25,14 +27,16 @@ exports.create = function(req,res,next){
             url._id = 100000;
           else
             url._id = doc[0]._id+1;
-          url.customUrl = algo.encoding(url._id);
-          url.save(function(err){
-            if(err)
-              return next(err);
-            res.json({
-                "result": "SUCCESS",
-                "message": "created URL",
-                "shortUrl": "http://localhost:3000/"+url.customUrl
+          algo.encoding(url._id).then(function(encoded){
+            url.customUrl = encoded;
+            url.save(function(err){
+              if(err)
+                return next(err);
+              res.json({
+                  "result": "SUCCESS",
+                  "message": "created URL",
+                  "shortUrl": "http://localhost:3000/"+url.customUrl
+              });
             });
           });
         });
@@ -134,8 +138,6 @@ exports.isRegistered = function(req,res,next){
 
 exports.getCount = function(req,res,next){
   //'localhost:3000/' 뒷부분만 입력 받는다.
-
-  const _id = algo.decoding(req.query.customUrl); //short url이면 _id로 변환 후 검색
   Url.findOne({customUrl : req.query.customUrl}, function(err, doc){
     if(err){
       res.json({
@@ -150,25 +152,27 @@ exports.getCount = function(req,res,next){
         "count" : doc.count
       });
     }else{
-      Url.findOne({_id : _id}, function(err2, doc2){
-        if(err2){
-          res.json({
-            "result" : "ERROR",
-            "message" : err
-          });
-        }
-        if(doc2){
-          res.json({
-            "result" : "SUCCESS",
-            "message" : "found in _id",
-            "count" : doc2.count
-          });
-        }else{
-          res.json({
-            "result" : "FAILURE",
-            "message" : "not found"
-          });
-        }
+      algo.decoding(req.query.customUrl).then(function(decoded){ //short url이면 _id로 변환 후 검색
+        Url.findOne({_id : decoded}, function(err2, doc2){
+          if(err2){
+            res.json({
+              "result" : "ERROR",
+              "message" : err
+            });
+          }
+          if(doc2){
+            res.json({
+              "result" : "SUCCESS",
+              "message" : "found in _id",
+              "count" : doc2.count
+            });
+          }else{
+            res.json({
+              "result" : "FAILURE",
+              "message" : "not found"
+            });
+          }
+        });
       });
     }
   });
