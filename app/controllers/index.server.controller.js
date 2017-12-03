@@ -12,6 +12,15 @@ exports.redirect = function(req,res){
     if(result){    //한글로 시작하는 URL (custom url)
       Url.findOne({customUrl: customUrl}, function(err, doc){
         if(doc){
+          Url.findByIdAndUpdate(doc._id, {$inc: {count:1}}, function (err, data) {
+            if(err){
+              res.json({
+                "result" : "ERROR",
+                "message" : "increment count error"
+              });
+            }
+          });
+
           res.redirect(doc.longUrl);
         }else{
           res.render('index');
@@ -21,6 +30,15 @@ exports.redirect = function(req,res){
       customUrl = algo.decoding(customUrl); //short url -> index
       Url.findOne({_id: customUrl}, function(err, doc){
         if(doc){
+          Url.findByIdAndUpdate(doc._id, {$inc: {count:1}}, function (err, data) {
+            if(err){
+              res.json({
+                "result" : "ERROR",
+                "message" : "increment count error"
+              });
+            }
+          });
+          
           res.redirect(doc.longUrl);
         }else{
           res.render('index');

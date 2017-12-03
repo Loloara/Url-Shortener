@@ -1,65 +1,11 @@
 $('#customTap').hide();
 $('#analysisTap').hide();
 
-$('#shortenButton').click(function(){
-  $.ajax({
-    'url':'/api/shorten',
-    'type':'POST',
-    'dataType':'json',
-    'data':{'longUrl':$('#longUrlInput').val()},
-    'success':  function(result){
-        if(result['result'] === 'SUCCESS'){
-            console.log(result['customUrl']);
-            $('#shortUrlLabel').html("<a href= \"" + result['customUrl'] +"\">" +result['customUrl']+"</a>");
-        }
-        else{
-            console.log(result);
-            $('#shortUrlLabel').html(result['message']);
-        }
-    }
-  });
-});
-
-$('#customButton').click(function(){
-  $.ajax({
-    'url':'/api/shorten',
-    'type':'POST',
-    'dataType':'json',
-    'data':{'longUrl':$('#longUrlInput').val()},
-    'success':  function(result){
-        if(result['result'] === 'SUCCESS'){
-            console.log(result['customUrl']);
-            $('#shortUrlLabel').html("<a href= \"" + result['customUrl'] +"\">" +result['customUrl']+"</a>");
-        }
-        else{
-            console.log(result);
-            $('#shortUrlLabel').html(result['message']);
-        }
-    }
-  });
-});
-
-$('#analysisButton').click(function(){
-  $.ajax({
-    'url':'/api/shorten',
-    'type':'POST',
-    'dataType':'json',
-    'data':{'longUrl':$('#longUrlInput').val()},
-    'success':  function(result){
-        if(result['result'] === 'SUCCESS'){
-            console.log(result['customUrl']);
-            $('#shortUrlLabel').html("<a href= \"" + result['customUrl'] +"\">" +result['customUrl']+"</a>");
-        }
-        else{
-            console.log(result);
-            $('#shortUrlLabel').html(result['message']);
-        }
-    }
-  });
-});
-
 $('#shortenMenu').click(function(){
    $(this).addClass('active').siblings().removeClass('active');
+   $('input').val('');
+   $('.resultLabel').empty();
+
    $('#shortenTap').show();
    $('#customTap').hide();
    $('#analysisTap').hide();
@@ -67,6 +13,9 @@ $('#shortenMenu').click(function(){
 
 $('#customMenu').click(function(){
    $(this).addClass('active').siblings().removeClass('active');
+   $('input').val('');
+   $('.resultLabel').empty();
+
    $('#shortenTap').hide();
    $('#customTap').show();
    $('#analysisTap').hide();
@@ -74,6 +23,9 @@ $('#customMenu').click(function(){
 
 $('#analysisMenu').click(function(){
    $(this).addClass('active').siblings().removeClass('active');
+   $('input').val('');
+   $('.resultLabel').empty();
+
    $('#shortenTap').hide();
    $('#customTap').hide();
    $('#analysisTap').show();

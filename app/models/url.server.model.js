@@ -22,6 +22,10 @@ const UrlSchema = new Schema({
       type : String,
       unique: true
     },
+    count: {
+      type : Number,
+      default : 0
+    },
     created : {
       type : Date,
       default : Date.now
