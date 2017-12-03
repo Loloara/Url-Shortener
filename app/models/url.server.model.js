@@ -2,7 +2,7 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 
 const UrlSchema = new Schema({
-    _id : Number,
+    _id : Number,   //increment Number (100000부터 사용)
     longUrl : {
       type : String,
       trim : true,

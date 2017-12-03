@@ -1,3 +1,6 @@
+//Shorten 버튼 클릭시 /api/shorten post 요청
+//error 처리 -> message 출력
+//URL 유효성 체크 안함
 $('#shortenButton').click(function(){
   $.ajax({
     'url':'/api/shorten',
@@ -13,6 +16,9 @@ $('#shortenButton').click(function(){
   });
 });
 
+//Customize 버튼 클릭시 DB에 있는 URL일시 /api/korean put 요청
+//DB에 없는 URL일시 /api/korean post 요청
+//Custom URL 중복 에러 처리
 $('#customButton').click(function(){
   $.ajax({  //변환한적 있는 URL인지 확인
     'url':'/api/korean',
@@ -31,7 +37,7 @@ $('#customButton').click(function(){
                   if(result2['result'] === 'SUCCESS'){
                       $('#customUrlLabel').html("<a href= \"" + result2['customUrl'] +"\">" +result2['customUrl']+"</a>");
                     }
-                  else{
+                  else{ //
                       $('#customUrlLabel').html(result2['message']);
                       $('#koreanUrlInput').val('');
                     }
@@ -62,6 +68,7 @@ $('#customButton').click(function(){
   });
 });
 
+//Analyze 버튼 클릭시 /api/analysis get 요청
 $('#analysisButton').click(function(){
   $.ajax({
     'url':'/api/analysis',

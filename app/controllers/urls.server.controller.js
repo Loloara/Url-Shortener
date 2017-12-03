@@ -76,6 +76,7 @@ exports.deleteAll = function(req,res){
   })
 };
 
+//DB에 없는 URL을 customize
 exports.makeKorean = function(req,res){
   let url = new Url(req.body);
   Url.find({status : 'created'})
@@ -110,6 +111,7 @@ exports.makeKorean = function(req,res){
     });
 };
 
+//DB에 존재하는 URL에 customize url
 exports.putKorean = function(req,res){
   const url = new Url(req.body);
   Url.findOne({longUrl : url.longUrl}, function(err, doc){
@@ -138,6 +140,7 @@ exports.putKorean = function(req,res){
   });
 };
 
+//DB에 존재하는지 확인
 exports.isRegistered = function(req,res){
   const url = new Url(req.query);
   Url.findOne({longUrl : url.longUrl}, function(err, doc){

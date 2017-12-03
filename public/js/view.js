@@ -1,7 +1,8 @@
+//첫 화면 -> shortenTap
 $('#customTap').hide();
 $('#analysisTap').hide();
 
-$('#shortenMenu').click(function(){
+$('#shortenMenu').click(function(){ //shorten 메뉴 클릭시 shortenTap show & 초기화
    $(this).addClass('active').siblings().removeClass('active');
    $('input').val('');
    $('.resultLabel').empty();
@@ -11,7 +12,7 @@ $('#shortenMenu').click(function(){
    $('#analysisTap').hide();
 });
 
-$('#customMenu').click(function(){
+$('#customMenu').click(function(){ //customize 메뉴 클릭시 customTap show & 초기화
    $(this).addClass('active').siblings().removeClass('active');
    $('input').val('');
    $('.resultLabel').empty();
@@ -21,7 +22,7 @@ $('#customMenu').click(function(){
    $('#analysisTap').hide();
 });
 
-$('#analysisMenu').click(function(){
+$('#analysisMenu').click(function(){ //analysis 메뉴 클릭시 analysisTap show & 초기화
    $(this).addClass('active').siblings().removeClass('active');
    $('input').val('');
    $('.resultLabel').empty();
@@ -31,6 +32,6 @@ $('#analysisMenu').click(function(){
    $('#analysisTap').show();
 });
 
-$('input').click(function(){
+$('input').click(function(){ //input 박스 클릭시 value 초기화
   $(this).val('');
 });
