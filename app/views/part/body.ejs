@@ -1,15 +1,41 @@
 <h1>URL Shortener</h1>
 <div class="ui three item menu">
-  <a class="active item">Shorten URL</a>
-  <a class="item">Custom URL</a>
-  <a class="item">Analysis</a>
+  <a class="active item" id="shortenMenu">Shorten URL</a>
+  <a class="item" id="customMenu">Customize URL</a>
+  <a class="item" id="analysisMenu">Analysis</a>
 </div>
+<div class="ui center aligned segment" id="main">
+  <div id="shortenTap">
+    <div class="ui massive action input">
+      <input type="text" placeholder="Your original URL here" class="box" id="longUrlInput">
+      <button class="ui primary button" id="shortenButton">
+        Shorten
+      </button>
+    </div>
 
-<div class="ui massive action input">
-  <input type="text" placeholder="Your original URL here" id="longUrl" size="30" value="">
-  <button class="ui primary button" id="shortenButton" value="submit">
-    Shorten
-  </button>
+    <div class="label" id="shortUrlLabel"></div>
+  </div>
+
+  <div id="customTap">
+    <div class="ui massive action input">
+      <input type="text" placeholder="Your original URL here" class="box" id="originalUrlInput">
+      <button class="ui primary button" id="customButton">
+        Customize >>
+      </button>
+      <input type="text" placeholder="enter only Korean Custom URL" class="box" id="koreanUrlInput">
+    </div>
+
+    <div class="label" id="customUrlLabel"></div>
+  </div>
+
+  <div id="analysisTap">
+    <div class="ui massive action input">
+      <input type="text" placeholder="Your custom URL here" class="box" id="customUrlInput">
+      <button class="ui primary button" id="analysisButton">
+        Analysis
+      </button>
+    </div>
+
+    <div class="label" id="analysisLabel"></div>
+  </div>
 </div>
-
-<div id="shortUrl"></div>

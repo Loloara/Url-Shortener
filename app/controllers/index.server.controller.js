@@ -8,8 +8,8 @@ exports.render = function(req,res) {
 
 exports.redirect = function(req,res){
   let customUrl = req.params.customUrl;
-  is_hangul_url(customUrl).then(function(result){ //동기식으로 한글 URL체크
-    if(result){    //한글이 포함된 URL (custom url)
+  is_hangul_url(customUrl.charAt(0)).then(function(result){ //동기식으로 한글 URL체크
+    if(result){    //한글로 시작하는 URL (custom url)
       Url.findOne({customUrl: customUrl}, function(err, doc){
         if(doc){
           res.redirect(doc.longUrl);
@@ -17,7 +17,7 @@ exports.redirect = function(req,res){
           res.render('index');
         }
       });
-    }else{  // 한글이 포함되지 않은 URL (short url)
+    }else{  // 한글로 시작하지 않는 URL (short url)
       customUrl = algo.decoding(customUrl); //short url -> index
       Url.findOne({_id: customUrl}, function(err, doc){
         if(doc){
@@ -30,10 +30,10 @@ exports.redirect = function(req,res){
   });
 };
 
-function is_hangul_url(str) {
+function is_hangul_url(ch) {
   return new Promise(function(resolve, reject){
     const check =  /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g;
-    if(check.test(str)){
+    if(check.test(ch)){
       resolve(true);
     }else{
       resolve(false);
