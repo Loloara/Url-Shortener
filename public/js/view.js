@@ -30,3 +30,7 @@ $('#analysisMenu').click(function(){
    $('#customTap').hide();
    $('#analysisTap').show();
 });
+
+$('input').click(function(){
+  $(this).val('');
+});

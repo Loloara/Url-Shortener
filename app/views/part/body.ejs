@@ -7,35 +7,51 @@
 <div class="ui center aligned segment" id="main">
   <div id="shortenTap">
     <div class="ui massive action input">
-      <input type="text" placeholder="Your original URL here" class="box" id="longUrlInput">
+      <input type="text" placeholder="Your original URL here" id="longUrlInput" size=30>
       <button class="ui primary button" id="shortenButton">
         Shorten
       </button>
     </div>
 
     <div class="resultLabel" id="shortUrlLabel"></div>
+
+    <div class="introLabel">
+      단축하기를 원하는 주소를 입력하신 후 'Shorten' 버튼을 눌러주세요.<br />
+      짧은 URL을 생성해보세요.
+    </div>
   </div>
 
   <div id="customTap">
     <div class="ui massive action input">
-      <input type="text" placeholder="Your original URL here" class="box" id="originalUrlInput">
+      <input type="text" placeholder="Your original URL here" id="originalUrlInput" size=30>
       <button class="ui primary button" id="customButton">
         Customize >>
       </button>
-      <input type="text" placeholder="enter only Korean Custom URL" class="box" id="koreanUrlInput">
+      <input type="text" placeholder="enter only Korean Custom URL" id="koreanUrlInput" size=30>
     </div>
 
     <div class="resultLabel" id="customUrlLabel"></div>
+
+    <div class="introLabel">
+      왼쪽 박스에 변환 전 주소, 오른쪽 박스에 원하는 한글 주소를 입력하세요.<br />
+      한글 주소의 길이는 8글자 이내입니다. 원하는 한글 URL이 생성해보세요.
+    </div>
   </div>
 
   <div id="analysisTap">
     <div class="ui massive action input">
-      <input type="text" placeholder="Your custom URL here" class="box" id="customUrlInput">
+      <input type="text" placeholder="Your custom URL here" id="customUrlInput" size=30>
       <button class="ui primary button" id="analysisButton">
         Analysis
       </button>
     </div>
 
     <div class="resultLabel" id="analysisLabel"></div>
+
+    <div class="introLabel">
+      Shorten 혹은 Customize 변환 이후에 이용 가능합니다.<br />
+      http://localhost/ 다음의 주소를 입력하세요.<br />
+      변환 된 주소로 방문한 횟수를 조회합니다.
+    </div>
   </div>
 </div>
