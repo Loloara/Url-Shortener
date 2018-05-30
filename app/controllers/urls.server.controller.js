@@ -1,6 +1,7 @@
 const Url = require('mongoose').model('Url');
 const algo = require('./algorithm/shorten');
 const Promise = require('bluebird');
+const config = require('../../config/config');
 
 exports.create = function(req,res){
   let url = new Url(req.body);
@@ -10,7 +11,7 @@ exports.create = function(req,res){
         res.json({
             "result": "SUCCESS",
             "message": "Already Exist",
-            "shortUrl" : "http://localhost:3000/"+encoded
+            "shortUrl" : config.ip+encoded
         });
       });
     }else{  //처음 변환하는 URL
@@ -39,7 +40,7 @@ exports.create = function(req,res){
               res.json({
                   "result": "SUCCESS",
                   "message": "created URL",
-                  "shortUrl": "http://localhost:3000/"+url.customUrl
+                  "shortUrl": config.ip+url.customUrl
               });
             });
           });
@@ -103,7 +104,7 @@ exports.makeKorean = function(req,res){
             res.json({
               "result" : "SUCCESS",
               "message" : "한글 URL 생성 완료",
-              "customUrl" : "http://localhost:3000/" + url.customUrl
+              "customUrl" : config.ip + url.customUrl
             });
           }
         });
@@ -127,7 +128,7 @@ exports.putKorean = function(req,res){
           res.json({
             "result" : "SUCCESS",
             "message" : "한글 URL 생성 완료",
-            "customUrl" : "http://localhost:3000/" + doc.customUrl
+            "customUrl" : config.ip + doc.customUrl
           });
         }
       });
