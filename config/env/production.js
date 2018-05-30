@@ -1,3 +1,3 @@
 module.exports = {
-  db: 'mongodb://localhost/smilegate'
+  db: 'mongodb://localhost/urldb'
 }
